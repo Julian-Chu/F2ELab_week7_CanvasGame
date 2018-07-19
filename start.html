@@ -54,6 +54,9 @@
             var triangle = new Triangle(ctx, 530, 500, 10);
             triangle.draw();
 
+            var meteor = new Meteor(ctx, 40, 180, -70);
+            meteor.draw();
+
 
             //inner circle
             ctx.beginPath();
@@ -71,24 +74,6 @@
             ctx.stroke();
             ctx.globalAlpha = 1;
 
-
-
-
-            //red meteor
-            ctx.save();
-            ctx.translate(40, 180);
-            ctx.rotate(-70 * Math.PI / 180)
-            ctx.beginPath();
-            ctx.moveTo(50, 0);
-            ctx.lineTo(0, 50);
-            ctx.lineTo(0, 110);
-            ctx.lineTo(50, 130);
-            ctx.lineTo(90, 100);
-            ctx.lineTo(90, 50);
-            ctx.closePath();
-            ctx.fillStyle = "#E7465D";
-            ctx.fill();
-            ctx.restore();
 
             // Battery
             ctx.save();
@@ -148,14 +133,37 @@
             this.draw = function() {
                 //blue triangle
                 this.ctx.save();
-                this.ctx.translate(530, 500);
-                this.ctx.rotate(10 * Math.PI / 180);
+                this.ctx.translate(this.postionX, this.postionY);
+                this.ctx.rotate(this.angle * Math.PI / 180);
                 this.ctx.beginPath();
                 this.ctx.moveTo(0, 0);
                 this.ctx.lineTo(80, 0);
                 this.ctx.lineTo(40, -80);
                 this.ctx.closePath();
                 this.ctx.fillStyle = "#3676BB";
+                this.ctx.fill();
+                this.ctx.restore();
+            }
+        }
+
+        function Meteor(ctx, x, y, angle) {
+            Shape.apply(this, arguments);
+
+
+            this.draw = function() {
+                //red meteor
+                this.ctx.save();
+                this.ctx.translate(this.postionX, this.postionY);
+                this.ctx.rotate(this.angle * Math.PI / 180)
+                this.ctx.beginPath();
+                this.ctx.moveTo(50, 0);
+                this.ctx.lineTo(0, 50);
+                this.ctx.lineTo(0, 110);
+                this.ctx.lineTo(50, 130);
+                this.ctx.lineTo(90, 100);
+                this.ctx.lineTo(90, 50);
+                this.ctx.closePath();
+                this.ctx.fillStyle = "#E7465D";
                 this.ctx.fill();
                 this.ctx.restore();
             }
