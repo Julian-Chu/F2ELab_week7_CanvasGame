@@ -1,142 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-</head>
-<style>
-  html,
-  body {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+    </head>
+    <style>
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        canvas {
+            background: black;
+        }
+        
+        button {
+            border: 2px, solid, #ffffff;
+            background: transparent;
+            color: #ffffff;
+            position: absolute;
+            transform: translateY(90px);
+            width: 180px;
+            height: 40px;
+            border-radius: 14px;
+            font-size: 20px;
+        }
+    </style>
 
-  canvas {
-    background: black;
-
-  }
-
-  button {
-    border: 2px, solid, #ffffff;
-    background: transparent;
-    color: #ffffff;
-    position: absolute;
-    transform: translateY(90px);
-    width: 140px;
-    height: 40px;
-    border-radius: 14px;
-    font-size: 20px;
-  }
-
-</style>
-
-<body>
-  <canvas id="canvas">
+    <body>
+        <canvas id="canvas">
 
   </canvas>
-  <button>START GAME</button>
-</body>
-<script>
-  var canvas = document.getElementById('canvas');
-  var ctx = canvas.getContext("2d");
+        <button>START GAME</button>
+    </body>
+    <script>
+        var canvas = document.getElementById('canvas');
+        var ctx = canvas.getContext("2d");
 
-  canvas.width = 800;
-  canvas.height = 600;
+        canvas.width = 800;
+        canvas.height = 600;
 
-  function draw() {
-    //inner circle
-    ctx.beginPath();
-    ctx.arc(400, 300, 150, 0, Math.PI * 2);
-    ctx.closePath();
-    ctx.strokeStyle = "#ffffff";
-    ctx.stroke();
+        function drawStart() {
+            var enemy = new Enemy(ctx, 700, 100);
+            enemy.draw();
 
-    // outer circle
-    ctx.beginPath();
-    ctx.arc(400, 300, 220, 0, Math.PI * 2);
-    ctx.closePath();
-    ctx.strokeStyle = "#ffffff";
-    ctx.globalAlpha = 0.4;
-    ctx.stroke();
-    ctx.globalAlpha = 1;
-    //yellow circle
-    ctx.beginPath();
-    ctx.arc(700, 100, 50, 0, Math.PI * 2);
-    ctx.closePath();
-    ctx.fillStyle = "#F5AF5F";
-    ctx.fill();
-
-    //blue triangle
-    ctx.save();
-    ctx.translate(530, 500);
-    ctx.rotate(10 * Math.PI / 180);
-    ctx.beginPath();
-    ctx.moveTo(0, 0);
-    ctx.lineTo(80, 0);
-    ctx.lineTo(40, -80);
-    ctx.closePath();
-    ctx.fillStyle = "#3676BB";
-    ctx.fill();
-    ctx.restore();
-
-    //red meteor
-    ctx.save();
-    ctx.translate(40, 180);
-    ctx.rotate(-70 * Math.PI / 180)
-    ctx.beginPath();
-    ctx.moveTo(50, 0);
-    ctx.lineTo(0, 50);
-    ctx.lineTo(0, 110);
-    ctx.lineTo(50, 130);
-    ctx.lineTo(90, 100);
-    ctx.lineTo(90, 50);
-    ctx.closePath();
-    ctx.fillStyle = "#E7465D";
-    ctx.fill();
-    ctx.restore();
-
-    // Battery
-    ctx.save();
-    ctx.translate(320, 230);
-    ctx.fillStyle = "F5AF5F";
-    ctx.fillRect(0, 10, 40, 70);
-    ctx.fillRect(0, 85, 40, 5);
-
-    ctx.fillStyle = "#FFFFFF";
-    ctx.fillRect(10, 0, 20, 10)
-
-    ctx.beginPath(); //lighting
-    ctx.moveTo(20, 25);
-    ctx.lineTo(10, 48);
-    ctx.lineTo(22, 48);
-    ctx.lineTo(20, 65);
-    ctx.lineTo(30, 42);
-    ctx.lineTo(17, 42);
-    ctx.closePath();
-    ctx.fill();
+            var triangle = new Triangle(ctx, 530, 500, 10);
+            triangle.draw();
 
 
-    ctx.font = "30px Arial";
-    ctx.fillText("Radio Defence", -20, 120);
-    ctx.font = "150px Arial";
-    ctx.fillText("R", 55, 90);
+            //inner circle
+            ctx.beginPath();
+            ctx.arc(400, 300, 150, 0, Math.PI * 2);
+            ctx.closePath();
+            ctx.strokeStyle = "#ffffff";
+            ctx.stroke();
 
-    ctx.restore();
+            // outer circle
+            ctx.beginPath();
+            ctx.arc(400, 300, 220, 0, Math.PI * 2);
+            ctx.closePath();
+            ctx.strokeStyle = "#ffffff";
+            ctx.globalAlpha = 0.4;
+            ctx.stroke();
+            ctx.globalAlpha = 1;
 
 
 
 
+            //red meteor
+            ctx.save();
+            ctx.translate(40, 180);
+            ctx.rotate(-70 * Math.PI / 180)
+            ctx.beginPath();
+            ctx.moveTo(50, 0);
+            ctx.lineTo(0, 50);
+            ctx.lineTo(0, 110);
+            ctx.lineTo(50, 130);
+            ctx.lineTo(90, 100);
+            ctx.lineTo(90, 50);
+            ctx.closePath();
+            ctx.fillStyle = "#E7465D";
+            ctx.fill();
+            ctx.restore();
+
+            // Battery
+            ctx.save();
+            ctx.translate(320, 230);
+            ctx.fillStyle = "F5AF5F";
+            ctx.fillRect(0, 10, 40, 70);
+            ctx.fillRect(0, 85, 40, 5);
+
+            ctx.fillStyle = "#FFFFFF";
+            ctx.fillRect(10, 0, 20, 10)
+
+            ctx.beginPath(); //lighting
+            ctx.moveTo(20, 25);
+            ctx.lineTo(10, 48);
+            ctx.lineTo(22, 48);
+            ctx.lineTo(20, 65);
+            ctx.lineTo(30, 42);
+            ctx.lineTo(17, 42);
+            ctx.closePath();
+            ctx.fill();
 
 
-  }
-  draw();
+            ctx.font = "30px Arial";
+            ctx.fillText("Radio Defence", -20, 120);
+            ctx.font = "150px Arial";
+            ctx.fillText("R", 55, 90);
 
-</script>
+            ctx.restore();
+        }
+
+        function Shape(ctx, x, y, angle) {
+            this.ctx = ctx;
+            this.postionX = x || 0;
+            this.postionY = y || 0;
+            this.angle = angle || 0;
+        }
+
+        function Enemy(ctx, x, y) {
+            Shape.apply(this, arguments);
+
+            this.draw = function() {
+                this.ctx.save();
+                this.ctx.translate(this.postionX, this.postionY);
+                this.ctx.beginPath();
+                this.ctx.arc(0, 0, 50, 0, Math.PI * 2);
+                this.ctx.closePath();
+                this.ctx.fillStyle = "#F5AF5F";
+                this.ctx.fill();
+                this.ctx.stroke();
+                this.ctx.restore();
+            }
+        }
+
+        function Triangle(ctx, x, y, angle) {
+            Shape.apply(this, arguments);
+
+            this.draw = function() {
+                //blue triangle
+                this.ctx.save();
+                this.ctx.translate(530, 500);
+                this.ctx.rotate(10 * Math.PI / 180);
+                this.ctx.beginPath();
+                this.ctx.moveTo(0, 0);
+                this.ctx.lineTo(80, 0);
+                this.ctx.lineTo(40, -80);
+                this.ctx.closePath();
+                this.ctx.fillStyle = "#3676BB";
+                this.ctx.fill();
+                this.ctx.restore();
+            }
+        }
+        drawStart();
+    </script>
 
 </html>
