@@ -155,17 +155,17 @@
                 // this.ctx.lineTo(40, -80);
                 // this.ctx.closePath();
                 let r = 40;
-                this.ctx.rotate(30 * Math.PI / 180);
+                this.ctx.rotate(30 * this.deg);
                 this.ctx.moveTo(0, 0);
                 this.ctx.lineTo(r, 0)
 
-                this.ctx.rotate(120 * Math.PI / 180);
+                this.ctx.rotate(120 * this.deg);
                 this.ctx.lineTo(r, 0)
 
-                this.ctx.rotate(120 * Math.PI / 180);
+                this.ctx.rotate(120 * this.deg);
                 this.ctx.lineTo(r, 0)
 
-                this.ctx.rotate(120 * Math.PI / 180);
+                this.ctx.rotate(120 * this.deg);
                 this.ctx.lineTo(r, 0);
                 this.ctx.fillStyle = "#3676BB";
                 this.ctx.fill();
@@ -183,7 +183,7 @@
                 //red meteor
                 this.ctx.save();
                 this.ctx.translate(this.postionX, this.postionY);
-                this.ctx.rotate(this.angle * Math.PI / 180)
+                this.ctx.rotate(this.angle * this.deg)
                 this.ctx.beginPath();
                 this.ctx.moveTo(50, 0);
                 this.ctx.lineTo(0, 50);
