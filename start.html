@@ -109,14 +109,21 @@
             this.postionX = x || 0;
             this.postionY = y || 0;
             this.angle = angle || 0;
+            // this.deg = Math.PI / 180;
+            this.deg = Math.PI / 180;
         }
 
-        Shape.prototype.deg = Math.PI / 180;
+        // Object.defineProperty(Shape, 'deg', {
+        //     value: Math.PI / 180
+        // })
 
         function Enemy(ctx, x, y) {
+            Object.getPrototypeOf(Shape.prototype).constructor.call(this);
             Shape.apply(this, arguments);
 
             this.draw = function() {
+
+                console.log('deg:', this.deg);
                 this.ctx.beginPath();
                 this.ctx.save();
                 this.ctx.translate(this.postionX, this.postionY);
@@ -131,14 +138,17 @@
         }
 
         function Triangle(ctx, x, y, angle) {
+            Object.getPrototypeOf(Shape.prototype).constructor.call(this);
             Shape.apply(this, arguments);
 
             this.draw = function() {
+                console.log(this.deg);
+                console.log(this);
                 //blue triangle
                 this.ctx.beginPath();
                 this.ctx.save();
                 this.ctx.translate(this.postionX, this.postionY);
-                this.ctx.rotate(this.angle * Math.PI / 180);
+                this.ctx.rotate(this.angle * this.deg);
                 // this.ctx.beginPath();
                 // this.ctx.moveTo(0, 0);
                 // this.ctx.lineTo(80, 0);
@@ -165,6 +175,7 @@
         }
 
         function Meteor(ctx, x, y, angle) {
+            Object.getPrototypeOf(Shape.prototype).constructor.call(this);
             Shape.apply(this, arguments);
 
 
