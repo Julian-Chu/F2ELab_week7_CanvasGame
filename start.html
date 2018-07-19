@@ -51,7 +51,7 @@
             var enemy = new Enemy(ctx, 700, 100);
             enemy.draw();
 
-            var triangle = new Triangle(ctx, 530, 500, 10);
+            var triangle = new Triangle(ctx, 560, 500, 10);
             triangle.draw();
 
             var meteor = new Meteor(ctx, 40, 180, -70);
@@ -111,19 +111,22 @@
             this.angle = angle || 0;
         }
 
+        Shape.prototype.deg = Math.PI / 180;
+
         function Enemy(ctx, x, y) {
             Shape.apply(this, arguments);
 
             this.draw = function() {
+                this.ctx.beginPath();
                 this.ctx.save();
                 this.ctx.translate(this.postionX, this.postionY);
-                this.ctx.beginPath();
                 this.ctx.arc(0, 0, 50, 0, Math.PI * 2);
                 this.ctx.closePath();
                 this.ctx.fillStyle = "#F5AF5F";
                 this.ctx.fill();
                 this.ctx.stroke();
                 this.ctx.restore();
+                this.ctx.closePath();
             }
         }
 
@@ -132,17 +135,32 @@
 
             this.draw = function() {
                 //blue triangle
+                this.ctx.beginPath();
                 this.ctx.save();
                 this.ctx.translate(this.postionX, this.postionY);
                 this.ctx.rotate(this.angle * Math.PI / 180);
-                this.ctx.beginPath();
+                // this.ctx.beginPath();
+                // this.ctx.moveTo(0, 0);
+                // this.ctx.lineTo(80, 0);
+                // this.ctx.lineTo(40, -80);
+                // this.ctx.closePath();
+                let r = 40;
+                this.ctx.rotate(30 * Math.PI / 180);
                 this.ctx.moveTo(0, 0);
-                this.ctx.lineTo(80, 0);
-                this.ctx.lineTo(40, -80);
-                this.ctx.closePath();
+                this.ctx.lineTo(r, 0)
+
+                this.ctx.rotate(120 * Math.PI / 180);
+                this.ctx.lineTo(r, 0)
+
+                this.ctx.rotate(120 * Math.PI / 180);
+                this.ctx.lineTo(r, 0)
+
+                this.ctx.rotate(120 * Math.PI / 180);
+                this.ctx.lineTo(r, 0);
                 this.ctx.fillStyle = "#3676BB";
                 this.ctx.fill();
                 this.ctx.restore();
+                this.ctx.closePath();
             }
         }
 
