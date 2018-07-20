@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./shapes.js"></script>
+</head>
+<style>
+  html,
+  body {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  canvas {
+    background: black;
+  }
+
+  canvas.foreground {
+    background: transparent;
+    position: absolute;
+  }
+
+  .start-button {
+    border: 2px, solid, #ffffff;
+    background: transparent;
+    color: #ffffff;
+    position: absolute;
+    transform: translateY(90px);
+    width: 180px;
+    height: 40px;
+    border-radius: 14px;
+    font-size: 20px;
+  }
+
+  .start-button:hover {
+    cursor: pointer;
+    transform: translateY(88px);
+  }
+
+</style>
+
+<body>
+  <canvas id="canvas">
+  </canvas>
+  <canvas id="canvas2" class="foreground">
+  </canvas>
+</body>
+<script>
+  var canvas = document.getElementById('canvas');
+  var ctx = canvas.getContext("2d");
+
+  canvas.width = 800;
+  canvas.height = 600;
+
+  var canvas2 = document.getElementById('canvas2');
+  var ctx2 = canvas2.getContext("2d");
+  canvas2.width = 800;
+  canvas2.height = 600;
+
+  var fighter;
+
+  function init() {
+    fighter = new Fighter(ctx, 400, 300, 30);
+    fighter.draw();
+
+  }
+  var count = 0;
+
+  function update() {
+    fighter.update((count + 2) * 20);
+    count++;
+
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, 1000, 1000);
+    fighter.draw();
+    requestAnimationFrame(draw);
+  }
+  init();
+  setInterval(update, 1000);
+  requestAnimationFrame(draw);
+
+</script>
