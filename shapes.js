@@ -97,6 +97,8 @@ function Meteor(ctx, x, y, angle) {
 
 Meteor.prototype = Object.create(Shape.prototype);
 
+
+
 function Fighter(ctx, x, y, angle) {
 
   Object.getPrototypeOf(Fighter.prototype).constructor.call(this);
@@ -124,11 +126,11 @@ function Fighter(ctx, x, y, angle) {
     this.ctx.save()
     this.ctx.beginPath();
     this.ctx.lineWidth = 2;
-    this.ctx.rotate(30 * this.deg);
+    // this.ctx.rotate(30 * this.deg);
     for (let i = 0; i < 3; i++) {
-      this.ctx.rotate(120 * this.deg);
       this.ctx.moveTo(0, 0);
       this.ctx.lineTo(this.radius, 0);
+      this.ctx.rotate(120 * this.deg);
     }
     this.ctx.stroke();
     // this.ctx.closePath();
@@ -137,12 +139,13 @@ function Fighter(ctx, x, y, angle) {
     // gun
     this.ctx.beginPath();
     this.ctx.fillStyle = "#ffffff";
-    this.ctx.fillRect(7.5, -(this.radius + 5), -15, -25);
+    // this.ctx.fillRect(7.5, -(this.radius + 5), -15, -25);
+    this.ctx.fillRect((this.radius + 5), -7.5, 25, 15);
     // this.ctx.closePath();
 
     //shield
     this.ctx.beginPath();
-    this.ctx.arc(0, 0, this.radius + 25, 50 * this.deg, 130 * this.deg);
+    this.ctx.arc(0, 0, this.radius + 25, 140 * this.deg, 220 * this.deg);
     this.ctx.lineWidth = 3;
     this.ctx.stroke();
     // this.ctx.closePath();
@@ -157,6 +160,23 @@ function Fighter(ctx, x, y, angle) {
     // this.ctx.closePath();
 
 
+
+    this.ctx.restore();
+  }
+}
+
+Fighter.prototype = Object.create(Shape.prototype);
+
+function Bullet(ctx, x, y, angle) {
+
+  Object.getPrototypeOf(Bullet.prototype).constructor.call(this);
+  Shape.apply(this, arguments);
+  this.velocity = 5;
+
+  this.update = () => {}
+
+  this.draw = () => {
+    this.ctx.save();
 
     this.ctx.restore();
   }

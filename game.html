@@ -64,18 +64,44 @@
   canvas2.width = 800;
   canvas2.height = 600;
 
+  var center = {
+    x: 400,
+    y: 300
+  }
   var fighter;
 
+  var mouse = {
+    x: 0,
+    y: 0
+  }
+
   function init() {
-    fighter = new Fighter(ctx, 400, 300, 30);
+    fighter = new Fighter(ctx, center.x, center.y, 30);
     fighter.draw();
 
   }
   var count = 0;
 
   function update() {
-    fighter.update((count + 2) * 20);
-    count++;
+    let pointToCenter = {
+      x: mouse.x - center.x,
+      y: mouse.y - center.y
+    }
+    let arctan = pointToCenter.y / pointToCenter.x;
+    console.log(arctan);
+    let mouseAngle = Math.abs((Math.atan(arctan) * 180 / Math.PI));
+    if (pointToCenter.x >= 0 && pointToCenter.y <= 0) {
+      mouseAngle = mouseAngle * -1
+    } else if (pointToCenter.x <= 0) {
+      if (pointToCenter.y >= 0) {
+        mouseAngle = 180 - mouseAngle;
+      } else {
+        mouseAngle += 180;
+      }
+    }
+
+    console.log(mouseAngle);
+    fighter.update(mouseAngle);
 
   }
 
@@ -85,7 +111,14 @@
     requestAnimationFrame(draw);
   }
   init();
-  setInterval(update, 1000);
+  setInterval(update, 300);
   requestAnimationFrame(draw);
+
+  canvas2.addEventListener('mousemove', (event) => {
+    rect = canvas2.getBoundingClientRect();
+
+    mouse.x = event.clientX - rect.left;
+    mouse.y = event.clientY - rect.top;
+  })
 
 </script>
