@@ -237,29 +237,33 @@ function Bullet(ctx, x, y, angle, fighter) {
   this.step = 0;
   this.currentPos = {
     x: 0,
+    y: 0
   }
 
   this.fighter = fighter;
 
   this.update = () => {
     // remove bullet when out of canvas
-    if (this.currentPos.x > 600) {
+    if (Math.abs(this.currentPos.x) > 500 || Math.abs(this.currentPos.y) > 400) {
       this.fighter.removeBullet(this);
     }
     this.step++;
   }
 
   this.draw = () => {
-
     this.ctx.save();
     this.ctx.translate(this.initPos.x, this.initPos.y);
-    this.ctx.rotate(this.angle * this.deg);
 
     //shape of bullet
     this.ctx.beginPath();
     this.ctx.fillStyle = "red";
-    this.currentPos.x = this.radius_init + this.step * this.velocity;
-    this.ctx.fillRect(this.radius_init + this.step * this.velocity, 0 - this.bulletWidth / 2, this.bulletLength, this.bulletWidth);
+    let distanceFromZero = this.radius_init + this.step * this.velocity;
+    this.currentPos.x = distanceFromZero * Math.cos(this.angle * this.deg);
+    this.currentPos.y = distanceFromZero * Math.sin(this.angle * this.deg);
+
+    this.ctx.translate(this.currentPos.x, this.currentPos.y);
+    this.ctx.rotate(this.angle * this.deg);
+    this.ctx.fillRect(0, 0 - this.bulletWidth / 2, this.bulletLength, this.bulletWidth);
 
 
     this.ctx.restore();
