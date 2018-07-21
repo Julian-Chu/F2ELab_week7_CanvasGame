@@ -69,6 +69,7 @@
     y: 300
   }
   var fighter;
+  var bullet;
 
   var mouse = {
     x: 0,
@@ -78,6 +79,9 @@
   function init() {
     fighter = new Fighter(ctx, center.x, center.y, 30);
     fighter.draw();
+    bullet = new Bullet(ctx, center.x, center.y, 30, fighter.radius);
+    bullet.draw();
+
 
   }
   var count = 0;
@@ -103,11 +107,14 @@
     console.log(mouseAngle);
     fighter.update(mouseAngle);
 
+    bullet.update();
+
   }
 
   function draw() {
     ctx.clearRect(0, 0, 1000, 1000);
     fighter.draw();
+    bullet.draw();
     requestAnimationFrame(draw);
   }
   init();

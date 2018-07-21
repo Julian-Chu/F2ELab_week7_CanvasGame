@@ -1,14 +1,18 @@
 function Shape(ctx, x, y, angle) {
   this.ctx = ctx;
-  this.postionX = x || 0;
-  this.postionY = y || 0;
+  // this.initX = x || 0;
+  // this.initY = y || 0;
+  this.initPos = {
+    x: x || 0,
+    y: y || 0
+  }
   this.angle = angle || 0;
   this.deg = Math.PI / 180;
 }
 
-Shape.prototype.update = function (x, y, angle) {
-  this.postionX = x;
-  this.postionY = y;
+Shape.prototype.update = function(x, y, angle) {
+  this.initPos.x = x;
+  this.initPos.y = y;
   this.angle = angle;
 }
 
@@ -23,7 +27,7 @@ function Enemy(ctx, x, y) {
 
     this.ctx.beginPath();
     this.ctx.save();
-    this.ctx.translate(this.postionX, this.postionY);
+    this.ctx.translate(this.initPos.x, this.initPos.y);
     this.ctx.arc(0, 0, 50, 0, Math.PI * 2);
     this.ctx.closePath();
     this.ctx.fillStyle = "#F5AF5F";
@@ -44,7 +48,7 @@ function Triangle(ctx, x, y, angle) {
     //blue triangle
     this.ctx.beginPath();
     this.ctx.save();
-    this.ctx.translate(this.postionX, this.postionY);
+    this.ctx.translate(this.initPos.x, this.initPos.y);
     this.ctx.rotate(this.angle * this.deg);
     let r = 40;
     this.ctx.rotate(30 * this.deg);
@@ -79,7 +83,7 @@ function Meteor(ctx, x, y, angle) {
     console.log(this.ctx);
     //red meteor
     this.ctx.save();
-    this.ctx.translate(this.postionX, this.postionY);
+    this.ctx.translate(this.initPos.x, this.initPos.y);
     this.ctx.rotate(this.angle * this.deg)
     this.ctx.beginPath();
     this.ctx.moveTo(50, 0);
@@ -97,6 +101,42 @@ function Meteor(ctx, x, y, angle) {
 
 Meteor.prototype = Object.create(Shape.prototype);
 
+function BatteryWithTitle(ctx, x, y, angle) {
+  // Battery
+  Object.getPrototypeOf(Shape.prototype).constructor.call(this);
+  Shape.apply(this, arguments);
+
+  this.draw = function() {
+    this.ctx.save();
+    this.ctx.translate(this.initPos.x, this.initPos.y);
+    this.ctx.fillStyle = "#F5AF5F";
+    this.ctx.fillRect(0, 10, 40, 70);
+    this.ctx.fillRect(0, 85, 40, 5);
+
+    this.ctx.fillStyle = "#FFFFFF";
+    this.ctx.fillRect(10, 0, 20, 10)
+
+    this.ctx.beginPath(); //lighting
+    this.ctx.moveTo(20, 25);
+    this.ctx.lineTo(10, 48);
+    this.ctx.lineTo(22, 48);
+    this.ctx.lineTo(20, 65);
+    this.ctx.lineTo(30, 42);
+    this.ctx.lineTo(17, 42);
+    this.ctx.closePath();
+    this.ctx.fill();
+
+
+    this.ctx.font = "30px Arial";
+    this.ctx.fillText("Radio Defence", -20, 120);
+    this.ctx.font = "150px Arial";
+    this.ctx.fillText("R", 55, 90);
+
+    this.ctx.restore();
+  }
+}
+
+BatteryWithTitle.prototype = Object.create(Shape.prototype);
 
 
 function Fighter(ctx, x, y, angle) {
@@ -112,7 +152,7 @@ function Fighter(ctx, x, y, angle) {
 
   this.draw = () => {
     this.ctx.save();
-    this.ctx.translate(x, y);
+    this.ctx.translate(this.initPos.x, this.initPos.y);
     this.ctx.rotate(this.angle * this.deg);
 
     // inner circle
@@ -167,19 +207,36 @@ function Fighter(ctx, x, y, angle) {
 
 Fighter.prototype = Object.create(Shape.prototype);
 
-function Bullet(ctx, x, y, angle) {
+function Bullet(ctx, x, y, angle, fighterRadius) {
 
   Object.getPrototypeOf(Bullet.prototype).constructor.call(this);
   Shape.apply(this, arguments);
-  this.velocity = 5;
+  this.velocity = 10;
+  this.radius_init = fighterRadius + 30;
+  this.bulletLength = 10;
+  this.bulletWidth = 10;
+  this.step = 0;
 
-  this.update = () => {}
+  this.update = () => {
+    this.step++;
+  }
 
   this.draw = () => {
+
     this.ctx.save();
+    this.ctx.translate(this.initPos.x, this.initPos.y);
+    this.ctx.rotate(this.angle * this.deg);
+    console.log('bullet:', { x: this.initPos.x, y: this.initPos.y });
+    console.log(this.radius_init + this.step * this.velocity);
+
+    //shape of bullet
+    this.ctx.beginPath();
+    this.ctx.fillStyle = "red";
+    this.ctx.fillRect(this.radius_init + this.step * this.velocity, 0 - this.bulletWidth / 2, this.bulletLength, this.bulletWidth);
+
 
     this.ctx.restore();
   }
 }
 
-Fighter.prototype = Object.create(Shape.prototype);
+Bullet.prototype = Object.create(Shape.prototype);
