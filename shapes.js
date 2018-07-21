@@ -23,11 +23,17 @@ Shape.prototype.update = function (x, y, angle) {
 function Enemy(ctx, x, y) {
   Object.getPrototypeOf(Enemy.prototype).constructor.call(this);
   Shape.apply(this, arguments);
+  this.velocity = 20;
   this.currentPos = {
     x: this.initPos.x,
     y: this.initPos.y
   }
   this.radius = 40;
+
+  this.update = () => {
+    this.currentPos.y += this.velocity;
+  }
+
   this.draw = () => {
     this.ctx.beginPath();
     this.ctx.save();

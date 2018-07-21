@@ -44,15 +44,25 @@
     transform: translateY(88px);
   }
 
+  h1 {
+    position: absolute;
+    top: 0
+  }
+
 </style>
 
 <body>
+  <h1>Points:
+    <span id="points"></span>
+  </h1>
   <canvas id="canvas">
   </canvas>
   <canvas id="canvas2" class="foreground">
   </canvas>
 </body>
 <script>
+  var scoreboard = document.getElementById('points');
+
   var canvas = document.getElementById('canvas');
   var ctx = canvas.getContext("2d");
 
@@ -86,7 +96,7 @@
       enemy.draw();
     })
   }
-  var count = 0;
+  var points = 0;
 
   function update() {
     let pointToCenter = {
@@ -107,18 +117,12 @@
       }
     }
 
-    if (enemies.length < 3) {
-      initX = Math.random() * 800;
-      initY = -10;
-
-      enemies.push(new Enemy(ctx, initX, initY));
-    }
-
 
     fighter.update(mouseAngle);
 
     // check any bullet touch enemy (range: enemy radius + 5)
     enemies.map(enemy => {
+      let index = enemies.indexOf(enemy);
       this.fighter.bullets.map(
         bullet => {
           let distanceX = enemy.currentPos.x - bullet.currentPos.x;
@@ -127,12 +131,28 @@
           if (distance < enemy.radius + bullet.bulletWidth) {
             fighter.removeBullet(bullet);
 
-            let index = enemies.indexOf(enemy);
             enemies.splice(index, 1);
+            points += 1;
           }
         }
       )
+      enemy.update();
+      if (enemy.currentPos.y > 650) {
+        enemies.splice(index, 1);
+      }
     })
+
+    if (enemies.length < 3) {
+      let initX = Math.random() * 800;
+      while (initX > 300 && initX < 500) {
+        initX = Math.random() * 800;
+      }
+      let initY = -10;
+      enemies.push(new Enemy(ctx, initX, initY));
+    }
+
+    scoreboard.innerHTML = points;
+
   }
 
   function draw() {
@@ -143,8 +163,9 @@
     })
     requestAnimationFrame(draw);
   }
+
   init();
-  setInterval(update, 300);
+  setInterval(update, 200);
   setInterval(this.fighter.shoot, 5000);
   requestAnimationFrame(draw);
 
