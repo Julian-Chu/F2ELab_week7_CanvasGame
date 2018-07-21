@@ -148,7 +148,12 @@ function Fighter(ctx, x, y, angle) {
 
   this.update = (angle) => {
     this.angle = angle;
+    this.bullets.map(bullet => {
+      bullet.update();
+    })
   }
+
+  this.bullets = [];
 
   this.draw = () => {
     this.ctx.save();
@@ -202,6 +207,15 @@ function Fighter(ctx, x, y, angle) {
 
 
     this.ctx.restore();
+
+    this.bullets.map((bullet) => {
+      bullet.draw();
+    })
+  }
+
+  this.shoot = () => {
+    let bullet = new Bullet(this.ctx, this.initPos.x, this.initPos.y, this.angle, this.radius);
+    this.bullets.push(bullet);
   }
 }
 
@@ -216,6 +230,10 @@ function Bullet(ctx, x, y, angle, fighterRadius) {
   this.bulletLength = 10;
   this.bulletWidth = 10;
   this.step = 0;
+  this.currentPos = {
+    x: 0,
+    y: 0
+  }
 
   this.update = () => {
     this.step++;
@@ -226,8 +244,6 @@ function Bullet(ctx, x, y, angle, fighterRadius) {
     this.ctx.save();
     this.ctx.translate(this.initPos.x, this.initPos.y);
     this.ctx.rotate(this.angle * this.deg);
-    console.log('bullet:', { x: this.initPos.x, y: this.initPos.y });
-    console.log(this.radius_init + this.step * this.velocity);
 
     //shape of bullet
     this.ctx.beginPath();

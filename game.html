@@ -79,8 +79,9 @@
   function init() {
     fighter = new Fighter(ctx, center.x, center.y, 30);
     fighter.draw();
-    bullet = new Bullet(ctx, center.x, center.y, 30, fighter.radius);
-    bullet.draw();
+    // fighter.shoot();
+    // bullet = new Bullet(ctx, center.x, center.y, 30, fighter.radius);
+    // bullet.draw();
 
 
   }
@@ -105,20 +106,23 @@
     }
 
     console.log(mouseAngle);
-    fighter.update(mouseAngle);
 
-    bullet.update();
+    fighter.update(mouseAngle);
+    // fighter.shoot();
+
+    // bullet.update();
 
   }
 
   function draw() {
     ctx.clearRect(0, 0, 1000, 1000);
     fighter.draw();
-    bullet.draw();
+    // bullet.draw();
     requestAnimationFrame(draw);
   }
   init();
   setInterval(update, 300);
+  setInterval(this.fighter.shoot, 5000);
   requestAnimationFrame(draw);
 
   canvas2.addEventListener('mousemove', (event) => {
