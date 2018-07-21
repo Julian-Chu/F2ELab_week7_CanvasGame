@@ -10,7 +10,7 @@ function Shape(ctx, x, y, angle) {
   this.deg = Math.PI / 180;
 }
 
-Shape.prototype.update = function(x, y, angle) {
+Shape.prototype.update = function (x, y, angle) {
   this.initPos.x = x;
   this.initPos.y = y;
   this.angle = angle;
@@ -23,12 +23,16 @@ Shape.prototype.update = function(x, y, angle) {
 function Enemy(ctx, x, y) {
   Object.getPrototypeOf(Enemy.prototype).constructor.call(this);
   Shape.apply(this, arguments);
+  this.currentPos = {
+    x: this.initPos.x,
+    y: this.initPos.y
+  }
+  this.radius = 40;
   this.draw = () => {
-
     this.ctx.beginPath();
     this.ctx.save();
-    this.ctx.translate(this.initPos.x, this.initPos.y);
-    this.ctx.arc(0, 0, 50, 0, Math.PI * 2);
+    this.ctx.translate(this.currentPos.x, this.currentPos.y);
+    this.ctx.arc(0, 0, this.radius, 0, Math.PI * 2);
     this.ctx.closePath();
     this.ctx.fillStyle = "#F5AF5F";
     this.ctx.fill();
@@ -75,12 +79,8 @@ Triangle.prototype = Object.create(Shape.prototype);
 function Meteor(ctx, x, y, angle) {
   Object.getPrototypeOf(Shape.prototype).constructor.call(this);
   Shape.apply(this, arguments);
-  console.log(this);
-  console.log(this.ctx);
 
   this.draw = () => {
-    console.log(this);
-    console.log(this.ctx);
     //red meteor
     this.ctx.save();
     this.ctx.translate(this.initPos.x, this.initPos.y);
@@ -106,7 +106,7 @@ function BatteryWithTitle(ctx, x, y, angle) {
   Object.getPrototypeOf(Shape.prototype).constructor.call(this);
   Shape.apply(this, arguments);
 
-  this.draw = function() {
+  this.draw = function () {
     this.ctx.save();
     this.ctx.translate(this.initPos.x, this.initPos.y);
     this.ctx.fillStyle = "#F5AF5F";
@@ -140,12 +140,9 @@ BatteryWithTitle.prototype = Object.create(Shape.prototype);
 
 
 function Fighter(ctx, x, y, angle) {
-
   Object.getPrototypeOf(Fighter.prototype).constructor.call(this);
   Shape.apply(this, arguments);
-
   this.radius = 40;
-
   this.update = (angle) => {
     this.angle = angle;
     this.bullets.map(bullet => {
@@ -154,7 +151,6 @@ function Fighter(ctx, x, y, angle) {
   }
 
   this.bullets = [];
-
   this.draw = () => {
     this.ctx.save();
     this.ctx.translate(this.initPos.x, this.initPos.y);
@@ -204,8 +200,6 @@ function Fighter(ctx, x, y, angle) {
     this.ctx.setLineDash([]);
     // this.ctx.closePath();
 
-
-
     this.ctx.restore();
 
     this.bullets.map((bullet) => {
@@ -235,32 +229,29 @@ function Bullet(ctx, x, y, angle, fighter) {
   this.bulletLength = 10;
   this.bulletWidth = 10;
   this.step = 0;
-  this.currentPos = {
-    x: 0,
-    y: 0
-  }
+  this.currentPos = Object.assign({}, this.initPos);
 
   this.fighter = fighter;
 
   this.update = () => {
     // remove bullet when out of canvas
-    if (Math.abs(this.currentPos.x) > 500 || Math.abs(this.currentPos.y) > 400) {
+    if (this.currentPos.x > 1000 || this.currentPos.x < 0 || this.currentPos.y > 800 || this.currentPos.y < 0) {
       this.fighter.removeBullet(this);
     }
     this.step++;
+    let distanceFromZero = this.radius_init + this.step * this.velocity;
+    this.currentPos.x = this.initPos.x + distanceFromZero * Math.cos(this.angle * this.deg);
+    this.currentPos.y = this.initPos.y + distanceFromZero * Math.sin(this.angle * this.deg);
+
   }
 
   this.draw = () => {
     this.ctx.save();
-    this.ctx.translate(this.initPos.x, this.initPos.y);
+    // this.ctx.translate(this.initPos.x, this.initPos.y);
 
     //shape of bullet
     this.ctx.beginPath();
     this.ctx.fillStyle = "red";
-    let distanceFromZero = this.radius_init + this.step * this.velocity;
-    this.currentPos.x = distanceFromZero * Math.cos(this.angle * this.deg);
-    this.currentPos.y = distanceFromZero * Math.sin(this.angle * this.deg);
-
     this.ctx.translate(this.currentPos.x, this.currentPos.y);
     this.ctx.rotate(this.angle * this.deg);
     this.ctx.fillRect(0, 0 - this.bulletWidth / 2, this.bulletLength, this.bulletWidth);
