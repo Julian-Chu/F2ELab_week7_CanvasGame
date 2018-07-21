@@ -95,40 +95,6 @@
     }
 
 
-    function BatteryWithTitle(ctx, x, y, angle) {
-        // Battery
-        Object.getPrototypeOf(Shape.prototype).constructor.call(this);
-        Shape.apply(this, arguments);
-
-        this.draw = function () {
-            this.ctx.save();
-            this.ctx.translate(this.postionX, this.postionY);
-            this.ctx.fillStyle = "#F5AF5F";
-            this.ctx.fillRect(0, 10, 40, 70);
-            this.ctx.fillRect(0, 85, 40, 5);
-
-            this.ctx.fillStyle = "#FFFFFF";
-            this.ctx.fillRect(10, 0, 20, 10)
-
-            this.ctx.beginPath(); //lighting
-            this.ctx.moveTo(20, 25);
-            this.ctx.lineTo(10, 48);
-            this.ctx.lineTo(22, 48);
-            this.ctx.lineTo(20, 65);
-            this.ctx.lineTo(30, 42);
-            this.ctx.lineTo(17, 42);
-            this.ctx.closePath();
-            this.ctx.fill();
-
-
-            this.ctx.font = "30px Arial";
-            this.ctx.fillText("Radio Defence", -20, 120);
-            this.ctx.font = "150px Arial";
-            this.ctx.fillText("R", 55, 90);
-
-            this.ctx.restore();
-        }
-    }
 
     function Wave() {
         //inner circle
