@@ -44,17 +44,25 @@
     transform: translateY(88px);
   }
 
-  h1 {
+  h1,
+  h2 {
     position: absolute;
     top: 0
+  }
+
+  h2 {
+    left: 0
   }
 
 </style>
 
 <body>
   <h1>Points:
-    <span id="points"></span>
+    <span id="points">0</span>
   </h1>
+  <h2>Time:
+    <span id="timer"></span>
+  </h2>
   <canvas id="canvas">
   </canvas>
   <canvas id="canvas2" class="foreground">
@@ -62,6 +70,7 @@
 </body>
 <script>
   var scoreboard = document.getElementById('points');
+  var timerboard = document.getElementById('timer');
 
   var canvas = document.getElementById('canvas');
   var ctx = canvas.getContext("2d");
@@ -87,6 +96,9 @@
   }
 
   var enemies = []
+  var startTime;
+  var points;
+  var currentTime;
 
   function init() {
     fighter = new Fighter(ctx, center.x, center.y, 30);
@@ -94,9 +106,13 @@
     enemies.push(new Enemy(ctx, center.x - 200, center.y - 200));
     enemies.map(enemy => {
       enemy.draw();
-    })
+    });
+    startTime = Date.now();
+    points = 0;
+    timerboard.innerHTML = 0;
+
   }
-  var points = 0;
+
 
   function update() {
     let pointToCenter = {
@@ -152,7 +168,7 @@
     }
 
     scoreboard.innerHTML = points;
-
+    currentTime = Date.now;
   }
 
   function draw() {
@@ -164,9 +180,26 @@
     requestAnimationFrame(draw);
   }
 
+
+  function updateBoards() {
+    scoreboard.innerHTML = points;
+    currentTime = Date.now();
+    console.log(startTime);
+    console.log(currentTime);
+    let lefttime = Math.floor((currentTime - startTime) / 1000);
+    timerboard.innerHTML = lefttime;
+
+    if (lefttime >= 30) {
+      clearInterval(updateInterval);
+      clearInterval(bulletInterval);
+      clearInterval(boardInterval);
+    }
+  }
+
   init();
-  setInterval(update, 200);
-  setInterval(this.fighter.shoot, 5000);
+  var updateInterval = setInterval(update, 200);
+  var bulletInterval = setInterval(this.fighter.shoot, 5000);
+  var boardInterval = setInterval(updateBoards, 1000);
   requestAnimationFrame(draw);
 
   canvas2.addEventListener('mousemove', (event) => {
@@ -175,5 +208,9 @@
     mouse.x = event.clientX - rect.left;
     mouse.y = event.clientY - rect.top;
   })
+
+  setTimeout(() => {
+
+  }, 3000)
 
 </script>
