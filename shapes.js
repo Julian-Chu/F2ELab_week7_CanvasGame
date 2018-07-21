@@ -214,28 +214,38 @@ function Fighter(ctx, x, y, angle) {
   }
 
   this.shoot = () => {
-    let bullet = new Bullet(this.ctx, this.initPos.x, this.initPos.y, this.angle, this.radius);
+    let bullet = new Bullet(this.ctx, this.initPos.x, this.initPos.y, this.angle, this);
     this.bullets.push(bullet);
+  }
+
+  this.removeBullet = (bullet) => {
+    let index = Array.indexOf(this.bullets, bullet);
+    this.bullets.splice(index, 1);
   }
 }
 
 Fighter.prototype = Object.create(Shape.prototype);
 
-function Bullet(ctx, x, y, angle, fighterRadius) {
+function Bullet(ctx, x, y, angle, fighter) {
 
   Object.getPrototypeOf(Bullet.prototype).constructor.call(this);
   Shape.apply(this, arguments);
   this.velocity = 10;
-  this.radius_init = fighterRadius + 30;
+  this.radius_init = fighter.radius + 30;
   this.bulletLength = 10;
   this.bulletWidth = 10;
   this.step = 0;
   this.currentPos = {
     x: 0,
-    y: 0
   }
 
+  this.fighter = fighter;
+
   this.update = () => {
+    // remove bullet when out of canvas
+    if (this.currentPos.x > 600) {
+      this.fighter.removeBullet(this);
+    }
     this.step++;
   }
 
@@ -248,6 +258,7 @@ function Bullet(ctx, x, y, angle, fighterRadius) {
     //shape of bullet
     this.ctx.beginPath();
     this.ctx.fillStyle = "red";
+    this.currentPos.x = this.radius_init + this.step * this.velocity;
     this.ctx.fillRect(this.radius_init + this.step * this.velocity, 0 - this.bulletWidth / 2, this.bulletLength, this.bulletWidth);
 
 

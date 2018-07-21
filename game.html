@@ -93,8 +93,9 @@
       y: mouse.y - center.y
     }
     let arctan = pointToCenter.y / pointToCenter.x;
-    console.log(arctan);
     let mouseAngle = Math.abs((Math.atan(arctan) * 180 / Math.PI));
+
+    // calc correct angle, when arctan value is only between 0 - 90
     if (pointToCenter.x >= 0 && pointToCenter.y <= 0) {
       mouseAngle = mouseAngle * -1
     } else if (pointToCenter.x <= 0) {
@@ -105,7 +106,6 @@
       }
     }
 
-    console.log(mouseAngle);
 
     fighter.update(mouseAngle);
     // fighter.shoot();
@@ -119,6 +119,7 @@
     fighter.draw();
     // bullet.draw();
     requestAnimationFrame(draw);
+    console.log(fighter.bullets.length);
   }
   init();
   setInterval(update, 300);
