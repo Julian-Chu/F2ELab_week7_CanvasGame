@@ -85,11 +85,6 @@
     enemies.map(enemy => {
       enemy.draw();
     })
-    // fighter.shoot();
-    // bullet = new Bullet(ctx, center.x, center.y, 30, fighter.radius);
-    // bullet.draw();
-
-
   }
   var count = 0;
 
@@ -112,6 +107,13 @@
       }
     }
 
+    if (enemies.length < 3) {
+      initX = Math.random() * 800;
+      initY = -10;
+
+      enemies.push(new Enemy(ctx, initX, initY));
+    }
+
 
     fighter.update(mouseAngle);
 
@@ -124,15 +126,13 @@
           let distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
           if (distance < enemy.radius + bullet.bulletWidth) {
             fighter.removeBullet(bullet);
+
+            let index = enemies.indexOf(enemy);
+            enemies.splice(index, 1);
           }
-          // if (disance)
         }
       )
     })
-    // fighter.shoot();
-
-    // bullet.update();
-
   }
 
   function draw() {
@@ -141,7 +141,6 @@
     enemies.map(enemy => {
       enemy.draw();
     })
-    // bullet.draw();
     requestAnimationFrame(draw);
   }
   init();
