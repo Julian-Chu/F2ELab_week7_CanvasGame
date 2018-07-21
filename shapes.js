@@ -229,7 +229,10 @@ function Bullet(ctx, x, y, angle, fighter) {
   this.bulletLength = 10;
   this.bulletWidth = 10;
   this.step = 0;
-  this.currentPos = Object.assign({}, this.initPos);
+  this.currentPos = Object.assign({}, {
+    x: this.initPos.x + this.radius_init * Math.cos(this.angle * this.deg),
+    y: this.initPos.y + this.radius_init * Math.sin(this.angle * this.deg)
+  });
 
   this.fighter = fighter;
 

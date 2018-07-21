@@ -101,7 +101,7 @@
     let arctan = pointToCenter.y / pointToCenter.x;
     let mouseAngle = Math.abs((Math.atan(arctan) * 180 / Math.PI));
 
-    // calc correct angle, when arctan value is only between 0 - 90
+    //convert arctan to 0-360 (arctan value is only between 0 - 90)
     if (pointToCenter.x >= 0 && pointToCenter.y <= 0) {
       mouseAngle = mouseAngle * -1
     } else if (pointToCenter.x <= 0) {
@@ -120,10 +120,11 @@
           let distanceX = enemy.currentPos.x - bullet.currentPos.x;
           let distanceY = enemy.currentPos.y - bullet.currentPos.y;
 
-          // console.log(enemy.currentPos.x);
-          // console.log(bullet.currentPos.x);
-          // console.log(distanceX, distanceY);
+          console.log(enemy.currentPos.x);
+          console.log(bullet.currentPos.x);
+          console.log(distanceX, distanceY);
           let distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+          console.log(distance);
           if (distance < enemy.radius) {
             fighter.removeBullet(bullet);
           }
