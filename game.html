@@ -114,18 +114,15 @@
 
 
     fighter.update(mouseAngle);
+
+    // check any bullet touch enemy (range: enemy radius + 5)
     enemies.map(enemy => {
       this.fighter.bullets.map(
         bullet => {
           let distanceX = enemy.currentPos.x - bullet.currentPos.x;
           let distanceY = enemy.currentPos.y - bullet.currentPos.y;
-
-          console.log(enemy.currentPos.x);
-          console.log(bullet.currentPos.x);
-          console.log(distanceX, distanceY);
           let distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
-          console.log(distance);
-          if (distance < enemy.radius) {
+          if (distance < enemy.radius + bullet.bulletWidth) {
             fighter.removeBullet(bullet);
           }
           // if (disance)
