@@ -44,6 +44,11 @@
         transform: translateY(88px);
     }
 
+    a {
+        text-decoration: none;
+        color: #ffffff;
+    }
+
 </style>
 
 <body>
@@ -51,7 +56,9 @@
     </canvas>
     <canvas id="canvas2" class="foreground">
     </canvas>
-    <button class="start-button">START GAME</button>
+    <button class="start-button">
+        <a href="./game.html">START GAME</a>
+    </button>
 </body>
 <script>
     var canvas = document.getElementById('canvas');

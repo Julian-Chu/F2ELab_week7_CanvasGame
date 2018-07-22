@@ -22,6 +22,10 @@
     background: black;
   }
 
+  .inactive {
+    display: none;
+  }
+
   canvas.foreground {
     background: transparent;
     position: absolute;
@@ -54,6 +58,10 @@
     left: 0
   }
 
+  .restart {
+    cursor: pointer
+  }
+
 </style>
 
 <body>
@@ -63,14 +71,16 @@
   <h2>Time:
     <span id="timer"></span>
   </h2>
+  <button class="restart inactive">Restart</button>
   <canvas id="canvas">
   </canvas>
-  <canvas id="canvas2" class="foreground">
-  </canvas>
+  <!-- <canvas id="canvas2" class="foreground">
+  </canvas> -->
 </body>
 <script>
   var scoreboard = document.getElementById('points');
   var timerboard = document.getElementById('timer');
+  var restartBtn = document.querySelector('.restart');
 
   var canvas = document.getElementById('canvas');
   var ctx = canvas.getContext("2d");
@@ -78,10 +88,10 @@
   canvas.width = 800;
   canvas.height = 600;
 
-  var canvas2 = document.getElementById('canvas2');
-  var ctx2 = canvas2.getContext("2d");
-  canvas2.width = 800;
-  canvas2.height = 600;
+  // var canvas2 = document.getElementById('canvas2');
+  // var ctx2 = canvas2.getContext("2d");
+  // canvas2.width = 800;
+  // canvas2.height = 600;
 
   var center = {
     x: 400,
@@ -154,7 +164,7 @@
       )
       enemy.update();
       if (enemy.currentPos.y > 650) {
-        enemies.splice(index, 1);
+        enemies = enemies.filter(obj => obj !== enemy);
       }
     })
 
@@ -184,8 +194,6 @@
   function updateBoards() {
     scoreboard.innerHTML = points;
     currentTime = Date.now();
-    console.log(startTime);
-    console.log(currentTime);
     let lefttime = Math.floor((currentTime - startTime) / 1000);
     timerboard.innerHTML = lefttime;
 
@@ -193,6 +201,9 @@
       clearInterval(updateInterval);
       clearInterval(bulletInterval);
       clearInterval(boardInterval);
+      canvas.classList.add('inactive');
+      restartBtn.classList.remove('inactive');
+
     }
   }
 
@@ -202,15 +213,23 @@
   var boardInterval = setInterval(updateBoards, 1000);
   requestAnimationFrame(draw);
 
-  canvas2.addEventListener('mousemove', (event) => {
-    rect = canvas2.getBoundingClientRect();
+  canvas.addEventListener('mousemove', (event) => {
+    rect = canvas.getBoundingClientRect();
 
     mouse.x = event.clientX - rect.left;
     mouse.y = event.clientY - rect.top;
   })
 
-  setTimeout(() => {
+  restartBtn.addEventListener('click', () => {
 
-  }, 3000)
+    restartBtn.classList.add('inactive');
+    canvas.classList.remove('inactive');
+    init();
+    var updateInterval = setInterval(update, 200);
+    var bulletInterval = setInterval(this.fighter.shoot, 1000);
+    var boardInterval = setInterval(updateBoards, 1000);
+    requestAnimationFrame(draw);
+
+  })
 
 </script>

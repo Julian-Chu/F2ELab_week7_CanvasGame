@@ -219,8 +219,10 @@ function Fighter(ctx, x, y, angle) {
   }
 
   this.removeBullet = (bullet) => {
-    let index = Array.indexOf(this.bullets, bullet);
-    this.bullets.splice(index, 1);
+    // splice is slower than filter
+    // let index = this.bullets.indexOf(bullet);
+    // this.bullets.splice(index, 1);
+    this.bullets = this.bullets.filter(obj => obj !== bullet);
   }
 }
 
