@@ -28,7 +28,7 @@
     }
 
     .start-button {
-        border: 2px, solid, #ffffff;
+        border: 2px solid #ffffff;
         background: transparent;
         color: #ffffff;
         position: absolute;
@@ -37,6 +37,10 @@
         height: 40px;
         border-radius: 14px;
         font-size: 20px;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .start-button:hover {
@@ -47,6 +51,7 @@
     a {
         text-decoration: none;
         color: #ffffff;
+        margin: auto;
     }
 
 </style>
@@ -56,9 +61,7 @@
     </canvas>
     <canvas id="canvas2" class="foreground">
     </canvas>
-    <button class="start-button">
-        <a href="./game.html">START GAME</a>
-    </button>
+    <a class="start-button" href="./game.html">START GAME</a>
 </body>
 <script>
     var canvas = document.getElementById('canvas');
